@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valentine ❤️</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;-webkit-tap-highlight-color:transparent}
+body{height:100vh;overflow:hidden;display:flex;justify-content:center;align-items:center;background:linear-gradient(135deg,#ffd6e7,#ffeaf4,#fff0f6);}
+.hearts{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.heart{position:absolute;bottom:-40px;width:18px;height:18px;background:rgba(255,255,255,.7);transform:rotate(45deg);animation:floatUp linear infinite}
+.heart:before,.heart:after{content:"";position:absolute;width:18px;height:18px;background:inherit;border-radius:50%}
+.heart:before{top:-9px;left:0}.heart:after{left:-9px;top:0}
+@keyframes floatUp{0%{transform:translateY(0) rotate(45deg) scale(.8);opacity:0}20%{opacity:.8}100%{transform:translateY(-120vh) rotate(45deg) scale(1.2);opacity:0}}
+.card{position:relative;z-index:5;width:92%;max-width:420px;padding:40px 25px;border-radius:25px;background:rgba(255,255,255,.35);backdrop-filter:blur(15px);border:1px solid rgba(255,255,255,.4);box-shadow:0 10px 40px rgba(0,0,0,.15);text-align:center;cursor:pointer;transition:transform .25s ease}
+.card:active{transform:scale(.98)}
+h1{color:#ff4d88;font-size:1.9rem;margin-bottom:10px}
+.typing{color:#5a0f2d;font-size:1.1rem;min-height:80px;line-height:1.6;margin-top:10px}
+.hint{margin-top:15px;font-size:.85rem;color:#c2185b;opacity:.7}
+.gif{width:100%;max-width:240px;border-radius:15px;margin:10px auto;display:none}
+.buttons{margin-top:20px;display:none;gap:12px;justify-content:center}
+button{padding:12px 30px;border:none;border-radius:30px;font-size:1rem;font-weight:600;cursor:pointer}
+#yesBtn{background:linear-gradient(45deg,#ff4d88,#ff80ab);color:white;box-shadow:0 5px 15px rgba(255,77,136,.4)}
+#noBtn{position:fixed;bottom:50px;left:50%;transform:translateX(-50%);background:white;color:#ff4d88;border:2px solid #ff4d88;z-index:10}
+.confetti{position:fixed;width:10px;height:10px;top:-10px;animation:fall linear forwards;z-index:20}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:0}}
+</style>
+</head>
+<body>
+<div class="hearts" id="hearts"></div>
+<audio id="bg" src="bg.mp3" loop></audio>
+<audio id="pop" src="pop.mp3"></audio>
+<audio id="whoosh" src="whoosh.mp3"></audio>
+<audio id="proposal" src="proposal.mp3"></audio>
+<div class="card" id="card">
+<h1 id="title">Hey… listen 🥺</h1>
+<img class="gif" id="gif">
+<div class="typing" id="text"></div>
+<p class="hint" id="hint">(Tap the card)</p>
+<div class="buttons" id="buttons"><button id="yesBtn">YES ❤️</button></div>
+</div>
+<button id="noBtn" style="display:none;">NO</button>
+<script>
+setInterval(()=>{let h=document.createElement("div");h.className="heart";h.style.left=Math.random()*100+"vw";h.style.animationDuration=(5+Math.random()*4)+"s";document.getElementById("hearts").appendChild(h);setTimeout(()=>h.remove(),9000);},400);
+const lines=["Okay wait… first promise you won’t laugh 🥺","I really really love talking to you…","Your smile fixes days you don’t even know were hard for me ☀️","With you… even silence feels special 💞","I don’t want perfect… I just want YOU ❤️","So… there’s something I’ve been meaning to ask…"];
+const gifs=["gif1.gif","gif2.gif","gif3.gif","gif4.gif","gif5.gif","gif6.gif"];
+let step=-1,typing=false;
+const card=document.getElementById("card"),text=document.getElementById("text"),title=document.getElementById("title"),gif=document.getElementById("gif"),hint=document.getElementById("hint"),buttons=document.getElementById("buttons"),yesBtn=document.getElementById("yesBtn"),noBtn=document.getElementById("noBtn"),bg=document.getElementById("bg"),pop=document.getElementById("pop"),whoosh=document.getElementById("whoosh"),proposal=document.getElementById("proposal");
+card.onclick=()=>{if(typing)return;if(step===-1){bg.volume=.25;bg.play();}step++;if(step<lines.length){gif.src=gifs[step];gif.style.display="block";typeLine(lines[step]);}else{title.textContent="Will you be my Valentine? ❤️";text.style.display="none";hint.style.display="none";buttons.style.display="flex";noBtn.style.display="block";gif.src="final.gif";gif.style.display="block";}};
+function typeLine(line){typing=true;text.textContent="";let i=0;let int=setInterval(()=>{text.textContent+=line[i];i++;if(i===line.length){clearInterval(int);typing=false;}},45);}
+function moveNo(e){if(e)e.preventDefault();whoosh.currentTime=0;whoosh.play();let x=Math.random()*(window.innerWidth-noBtn.offsetWidth);let y=Math.random()*(window.innerHeight-noBtn.offsetHeight);noBtn.style.left=x+"px";noBtn.style.top=y+"px";noBtn.style.bottom="auto";noBtn.style.transform="none";}
+noBtn.onmouseover=moveNo;noBtn.onclick=moveNo;noBtn.ontouchstart=moveNo;
+yesBtn.onclick=(e)=>{e.stopPropagation();pop.play();bg.pause();proposal.play();title.textContent="I knew you'd say YES 😍";gif.src="yes.gif";launchConfetti();};
+function launchConfetti(){const colors=["#ff4d88","#ffd166","#06d6a0","#118ab2","#ff85a1"];for(let i=0;i<120;i++){let c=document.createElement("div");c.className="confetti";c.style.left=Math.random()*100+"vw";c.style.background=colors[Math.floor(Math.random()*colors.length)];c.style.animationDuration=(2+Math.random()*2)+"s";document.body.appendChild(c);setTimeout(()=>c.remove(),4000);}};
+</script>
+</body>
+</html>
