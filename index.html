@@ -41,23 +41,11 @@ button{padding:12px 30px;border:none;border-radius:30px;font-size:1rem;font-weig
 <div class="buttons" id="buttons"><button id="yesBtn">YES ❤️</button></div>
 </div>
 <button id="noBtn" style="display:none;">NO</button>
-<script>
-setInterval(()=>{let h=document.createElement("div");h.className="heart";h.style.left=Math.random()*100+"vw";h.style.animationDuration=(5+Math.random()*4)+"s";document.getElementById("hearts").appendChild(h);setTimeout(()=>h.remove(),9000);},400);
-const lines=["Okay wait… first promise you won’t laugh 🥺","I really really love talking to you…","Your smile fixes days you don’t even know were hard for me ☀️","With you… even silence feels special 💞","I don’t want perfect… I just want YOU ❤️","So… there’s something I’ve been meaning to ask…"];
-const gifs=["gif1.gif","gif2.gif","gif3.gif","gif4.gif","gif5.gif","gif6.gif"];
-let step=-1,typing=false;
-const card=document.getElementById("card"),text=document.getElementById("text"),title=document.getElementById("title"),gif=document.getElementById("gif"),hint=document.getElementById("hint"),buttons=document.getElementById("buttons"),yesBtn=document.getElementById("yesBtn"),noBtn=document.getElementById("noBtn"),bg=document.getElementById("bg"),pop=document.getElementById("pop"),whoosh=document.getElementById("whoosh"),proposal=document.getElementById("proposal");
-card.onclick=()=>{if(typing)return;if(step===-1){bg.volume=.25;bg.play();}step++;if(step<lines.length){gif.src=gifs[step];gif.style.display="block";typeLine(lines[step]);}else{title.textContent="Will you be my Valentine? ❤️";text.style.display="none";hint.style.display="none";buttons.style.display="flex";noBtn.style.display="block";gif.src="final.gif";gif.style.display="block";}};
-function typeLine(line){typing=true;text.textContent="";let i=0;let int=setInterval(()=>{text.textContent+=line[i];i++;if(i===line.length){clearInterval(int);typing=false;}},45);}
-function moveNo(e){if(e)e.preventDefault();whoosh.currentTime=0;whoosh.play();let x=Math.random()*(window.innerWidth-noBtn.offsetWidth);let y=Math.random()*(window.innerHeight-noBtn.offsetHeight);noBtn.style.left=x+"px";noBtn.style.top=y+"px";noBtn.style.bottom="auto";noBtn.style.transform="none";}
-noBtn.onmouseover=moveNo;noBtn.onclick=moveNo;noBtn.ontouchstart=moveNo;
-yesBtn.onclick=(e)=>{e.stopPropagation();pop.play();bg.pause();proposal.play();title.textContent="I knew you'd say YES 😍";gif.src="yes.gif";launchConfetti();};
-function launchConfetti(){const colors=["#ff4d88","#ffd166","#06d6a0","#118ab2","#ff85a1"];for(let i=0;i<120;i++){let c=document.createElement("div");c.className="confetti";c.style.left=Math.random()*100+"vw";c.style.background=colors[Math.floor(Math.random()*colors.length)];c.style.animationDuration=(2+Math.random()*2)+"s";document.body.appendChild(c);setTimeout(()=>c.remove(),4000);}};
-<!-- tumhara poora HTML upar -->
 
 <script>
-  // YAHI se JS start
+document.addEventListener("DOMContentLoaded", function () {
 
+  // ✅ LIMITER START
   const MAX_OPENS = 3;
   let opens = localStorage.getItem("valentine_opens");
 
@@ -70,18 +58,45 @@ function launchConfetti(){const colors=["#ff4d88","#ffd166","#06d6a0","#118ab2",
   localStorage.setItem("valentine_opens", opens);
 
   if (opens > MAX_OPENS) {
-    document.body.innerHTML = `
-      <div style="height:100vh;display:flex;justify-content:center;align-items:center;text-align:center;background:linear-gradient(135deg,#ffd6e7,#fff0f6);font-family:Poppins;padding:20px;">
-        <div>
-          <h2 style="color:#ff4d88;">This surprise was already opened 💔</h2>
-          <p>Hope it made someone smile 😊</p>
-        </div>
+    const lockScreen = document.createElement("div");
+    lockScreen.style.position = "fixed";
+    lockScreen.style.top = "0";
+    lockScreen.style.left = "0";
+    lockScreen.style.width = "100%";
+    lockScreen.style.height = "100%";
+    lockScreen.style.background = "linear-gradient(135deg,#ffd6e7,#fff0f6)";
+    lockScreen.style.display = "flex";
+    lockScreen.style.justifyContent = "center";
+    lockScreen.style.alignItems = "center";
+    lockScreen.style.textAlign = "center";
+    lockScreen.style.zIndex = "9999";
+    lockScreen.style.fontFamily = "Poppins";
+    lockScreen.style.padding = "20px";
+    lockScreen.innerHTML = `
+      <div>
+        <h2 style="color:#ff4d88;">This surprise was already opened 💔</h2>
+        <p>Hope it made someone smile 😊</p>
       </div>
     `;
+    document.body.appendChild(lockScreen);
+    return;
   }
+  // ✅ LIMITER END
 
-  // baaki tumhara YES/NO button wala JS yahin neeche hoga
 
+
+setInterval(()=>{let h=document.createElement("div");h.className="heart";h.style.left=Math.random()*100+"vw";h.style.animationDuration=(5+Math.random()*4)+"s";document.getElementById("hearts").appendChild(h);setTimeout(()=>h.remove(),9000);},400);
+const lines=["Okay wait… first promise you won’t laugh 🥺","I really really love talking to you…","Your smile fixes days you don’t even know were hard for me ☀️","With you… even silence feels special 💞","I don’t want perfect… I just want YOU ❤️","So… there’s something I’ve been meaning to ask…"];
+const gifs=["gif1.gif","gif2.gif","gif3.gif","gif4.gif","gif5.gif","gif6.gif"];
+let step=-1,typing=false;
+const card=document.getElementById("card"),text=document.getElementById("text"),title=document.getElementById("title"),gif=document.getElementById("gif"),hint=document.getElementById("hint"),buttons=document.getElementById("buttons"),yesBtn=document.getElementById("yesBtn"),noBtn=document.getElementById("noBtn"),bg=document.getElementById("bg"),pop=document.getElementById("pop"),whoosh=document.getElementById("whoosh"),proposal=document.getElementById("proposal");
+card.onclick=()=>{if(typing)return;if(step===-1){bg.volume=.25;bg.play();}step++;if(step<lines.length){gif.src=gifs[step];gif.style.display="block";typeLine(lines[step]);}else{title.textContent="Will you be my Valentine? ❤️";text.style.display="none";hint.style.display="none";buttons.style.display="flex";noBtn.style.display="block";gif.src="final.gif";gif.style.display="block";}};
+function typeLine(line){typing=true;text.textContent="";let i=0;let int=setInterval(()=>{text.textContent+=line[i];i++;if(i===line.length){clearInterval(int);typing=false;}},45);}
+function moveNo(e){if(e)e.preventDefault();whoosh.currentTime=0;whoosh.play();let x=Math.random()*(window.innerWidth-noBtn.offsetWidth);let y=Math.random()*(window.innerHeight-noBtn.offsetHeight);noBtn.style.left=x+"px";noBtn.style.top=y+"px";noBtn.style.bottom="auto";noBtn.style.transform="none";}
+noBtn.onmouseover=moveNo;noBtn.onclick=moveNo;noBtn.ontouchstart=moveNo;
+yesBtn.onclick=(e)=>{e.stopPropagation();pop.play();bg.pause();proposal.play();title.textContent="I knew you'd say YES 😍";gif.src="yes.gif";launchConfetti();};
+function launchConfetti(){const colors=["#ff4d88","#ffd166","#06d6a0","#118ab2","#ff85a1"];for(let i=0;i<120;i++){let c=document.createElement("div");c.className="confetti";c.style.left=Math.random()*100+"vw";c.style.background=colors[Math.floor(Math.random()*colors.length)];c.style.animationDuration=(2+Math.random()*2)+"s";document.body.appendChild(c);setTimeout(()=>c.remove(),4000);}};
+});
 </script>
 </body>
 </html>
