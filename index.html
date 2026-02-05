@@ -25,13 +25,22 @@ button{padding:12px 30px;border:none;border-radius:30px;font-size:1rem;font-weig
 #noBtn{position:fixed;bottom:50px;left:50%;transform:translateX(-50%);background:white;color:#ff4d88;border:2px solid #ff4d88;z-index:10}
 .confetti{position:fixed;width:10px;height:10px;top:-10px;animation:fall linear forwards;z-index:20}
 @keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:0}}
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+body {
+  display: block !important;
+}
 </style>
 </head>
 <body>
-  <script>
+<script>
 const MAX_OPENS = 3;
-
-let opens = localStorage.getItem("love_opens");
+let opens = localStorage.getItem("valentine_opens");
 
 if (!opens) {
   opens = 1;
@@ -39,20 +48,33 @@ if (!opens) {
   opens = parseInt(opens) + 1;
 }
 
-localStorage.setItem("love_opens", opens);
+localStorage.setItem("valentine_opens", opens);
 
 if (opens > MAX_OPENS) {
-  document.body.innerHTML = `
-  <div style="height:100vh;display:flex;justify-content:center;align-items:center;
-  background:linear-gradient(135deg,#ffd6e7,#fff0f6);
-  font-family:Poppins,sans-serif;text-align:center;padding:20px;">
-    <div>
-      <h2 style="color:#ff4d88;">This surprise has already been opened ❤️</h2>
-      <p>Hope it made someone smile 😊</p>
-    </div>
-  </div>`;
+  window.onload = () => {
+    const lockScreen = document.createElement("div");
+    lockScreen.style.position = "fixed";
+    lockScreen.style.top = "0";
+    lockScreen.style.left = "0";
+    lockScreen.style.width = "100%";
+    lockScreen.style.height = "100%";
+    lockScreen.style.background = "linear-gradient(135deg,#ffd6e7,#fff0f6)";
+    lockScreen.style.display = "flex";
+    lockScreen.style.justifyContent = "center";
+    lockScreen.style.alignItems = "center";
+    lockScreen.style.zIndex = "9999";
+    lockScreen.style.textAlign = "center";
+    lockScreen.style.padding = "20px";
+    lockScreen.innerHTML = `
+      <div>
+        <h2 style="color:#ff4d88;">This surprise has already been opened ❤️</h2>
+        <p>Made with love 💖</p>
+      </div>
+    `;
+    document.body.appendChild(lockScreen);
+  };
 }
-  </script>
+</script>
 <div class="hearts" id="hearts"></div>
 <audio id="bg" src="bg.mp3" loop></audio>
 <audio id="pop" src="pop.mp3"></audio>
