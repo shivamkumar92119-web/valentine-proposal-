@@ -28,6 +28,31 @@ button{padding:12px 30px;border:none;border-radius:30px;font-size:1rem;font-weig
 </style>
 </head>
 <body>
+  <script>
+const MAX_OPENS = 3;
+
+let opens = localStorage.getItem("love_opens");
+
+if (!opens) {
+  opens = 1;
+} else {
+  opens = parseInt(opens) + 1;
+}
+
+localStorage.setItem("love_opens", opens);
+
+if (opens > MAX_OPENS) {
+  document.body.innerHTML = `
+  <div style="height:100vh;display:flex;justify-content:center;align-items:center;
+  background:linear-gradient(135deg,#ffd6e7,#fff0f6);
+  font-family:Poppins,sans-serif;text-align:center;padding:20px;">
+    <div>
+      <h2 style="color:#ff4d88;">This surprise has already been opened ❤️</h2>
+      <p>Hope it made someone smile 😊</p>
+    </div>
+  </div>`;
+}
+  </script>
 <div class="hearts" id="hearts"></div>
 <audio id="bg" src="bg.mp3" loop></audio>
 <audio id="pop" src="pop.mp3"></audio>
