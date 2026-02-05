@@ -54,44 +54,49 @@ noBtn.onmouseover=moveNo;noBtn.onclick=moveNo;noBtn.ontouchstart=moveNo;
 yesBtn.onclick=(e)=>{e.stopPropagation();pop.play();bg.pause();proposal.play();title.textContent="I knew you'd say YES 😍";gif.src="yes.gif";launchConfetti();};
 function launchConfetti(){const colors=["#ff4d88","#ffd166","#06d6a0","#118ab2","#ff85a1"];for(let i=0;i<120;i++){let c=document.createElement("div");c.className="confetti";c.style.left=Math.random()*100+"vw";c.style.background=colors[Math.floor(Math.random()*colors.length)];c.style.animationDuration=(2+Math.random()*2)+"s";document.body.appendChild(c);setTimeout(()=>c.remove(),4000);}};
 <script>
-const MAX_OPENS = 3;
-let opens = localStorage.getItem("valentine_opens");
+document.addEventListener("DOMContentLoaded", function () {
 
-if (!opens) {
-  opens = 1;
-} else {
-  opens = parseInt(opens) + 1;
-}
+  const MAX_OPENS = 3;
+  let opens = localStorage.getItem("valentine_opens");
 
-localStorage.setItem("valentine_opens", opens);
+  if (!opens) {
+    opens = 1;
+  } else {
+    opens = parseInt(opens) + 1;
+  }
 
-if (opens > MAX_OPENS) {
-  window.onload = () => {
-    document.body.innerHTML = `
-      <div style="
-        height:100vh;
-        display:flex;
-        justify-content:center;
-        align-items:center;
-        text-align:center;
-        padding:20px;
-        font-family:Poppins, sans-serif;
-        background: linear-gradient(135deg,#ffd6e7,#fff0f6);
-      ">
-        <div style="
-          background:white;
-          padding:30px 25px;
-          border-radius:20px;
-          box-shadow:0 10px 30px rgba(255,105,180,0.2);
-          max-width:320px;
-        ">
-          <h2 style="color:#ff4d88;">This surprise was already opened 💔</h2>
-          <p style="color:#555;">Hope it made someone smile 😊</p>
-        </div>
+  localStorage.setItem("valentine_opens", opens);
+
+  if (opens > MAX_OPENS) {
+    const lockScreen = document.createElement("div");
+    lockScreen.style.position = "fixed";
+    lockScreen.style.top = "0";
+    lockScreen.style.left = "0";
+    lockScreen.style.width = "100%";
+    lockScreen.style.height = "100%";
+    lockScreen.style.background = "linear-gradient(135deg,#ffd6e7,#fff0f6)";
+    lockScreen.style.display = "flex";
+    lockScreen.style.justifyContent = "center";
+    lockScreen.style.alignItems = "center";
+    lockScreen.style.textAlign = "center";
+    lockScreen.style.zIndex = "9999";
+    lockScreen.style.fontFamily = "Poppins";
+    lockScreen.style.padding = "20px";
+
+    lockScreen.innerHTML = `
+      <div>
+        <h2 style="color:#ff4d88;">This surprise was already opened 💔</h2>
+        <p>Hope it made someone smile 😊</p>
       </div>
     `;
-  };
-}
+
+    document.body.appendChild(lockScreen);
+    return; // IMPORTANT: aage ka JS stop ho jayega
+  }
+
+  // YAHAN SE tumhara original YES/NO buttons wala JS chalega
+
+});
 </script>
 </body>
 </html>
