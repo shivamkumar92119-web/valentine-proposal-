@@ -53,21 +53,44 @@ function moveNo(e){if(e)e.preventDefault();whoosh.currentTime=0;whoosh.play();le
 noBtn.onmouseover=moveNo;noBtn.onclick=moveNo;noBtn.ontouchstart=moveNo;
 yesBtn.onclick=(e)=>{e.stopPropagation();pop.play();bg.pause();proposal.play();title.textContent="I knew you'd say YES 😍";gif.src="yes.gif";launchConfetti();};
 function launchConfetti(){const colors=["#ff4d88","#ffd166","#06d6a0","#118ab2","#ff85a1"];for(let i=0;i<120;i++){let c=document.createElement("div");c.className="confetti";c.style.left=Math.random()*100+"vw";c.style.background=colors[Math.floor(Math.random()*colors.length)];c.style.animationDuration=(2+Math.random()*2)+"s";document.body.appendChild(c);setTimeout(()=>c.remove(),4000);}};
-/* LIMIT TO 3 OPENS */
-const MAX_OPENS=3;
-let opens=parseInt(localStorage.getItem("valentine_opens")||"0");
-opens++;
-localStorage.setItem("valentine_opens",opens);
+<script>
+const MAX_OPENS = 3;
+let opens = localStorage.getItem("valentine_opens");
 
-if(opens>MAX_OPENS){
-  document.body.innerHTML=`
-    <div class="lockScreen">
-      <div>
-        <h2 style="color:#ff4d88;">This surprise was already opened 💔</h2>
-        <p>Hope it made someone smile 😊</p>
+if (!opens) {
+  opens = 1;
+} else {
+  opens = parseInt(opens) + 1;
+}
+
+localStorage.setItem("valentine_opens", opens);
+
+if (opens > MAX_OPENS) {
+  window.onload = () => {
+    document.body.innerHTML = `
+      <div style="
+        height:100vh;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        text-align:center;
+        padding:20px;
+        font-family:Poppins, sans-serif;
+        background: linear-gradient(135deg,#ffd6e7,#fff0f6);
+      ">
+        <div style="
+          background:white;
+          padding:30px 25px;
+          border-radius:20px;
+          box-shadow:0 10px 30px rgba(255,105,180,0.2);
+          max-width:320px;
+        ">
+          <h2 style="color:#ff4d88;">This surprise was already opened 💔</h2>
+          <p style="color:#555;">Hope it made someone smile 😊</p>
+        </div>
       </div>
-    </div>
-  `;
+    `;
+  };
 }
 </script>
 </body>
